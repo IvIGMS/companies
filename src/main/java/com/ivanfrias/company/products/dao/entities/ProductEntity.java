@@ -38,9 +38,6 @@ public class ProductEntity {
     @JoinColumn(name = "company_id")
     private CompanyEntity company;
 
-    @Column(nullable = false)
-    private Long storeId;
-
     @CreationTimestamp
     @Column(updatable = false)
     private ZonedDateTime createdAt;
