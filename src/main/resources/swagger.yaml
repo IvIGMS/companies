@@ -1,0 +1,631 @@
+openapi: 3.0.2
+info:
+  title: Products
+  version: v1
+paths:
+  /products/paged:
+    get:
+      summary: Get a list of paged products
+      operationId: getPagedProductsFilter
+      parameters:
+        - $ref: '#/components/parameters/productNameQueryParam'
+        - $ref: '#/components/parameters/categoryNameQueryParam'
+        - $ref: '#/components/parameters/minPriceQueryParam'
+        - $ref: '#/components/parameters/maxPriceQueryParam'
+        - $ref: '#/components/parameters/storeIdQueryParam'
+        - $ref: '#/components/parameters/pageNumberQueryParam'
+        - $ref: '#/components/parameters/pageSizeQueryParam'
+        - $ref: '#/components/parameters/sortByQueryParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/PagedResponseProductDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  /products:
+    post:
+      summary: Create a Product
+      operationId: createProduct
+      requestBody:
+        $ref: '#/components/requestBodies/ProductRequestDTO'
+      responses:
+        '201':
+          description: Product created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+    get:
+      summary: Get a list of products
+      operationId: getProductsFilter
+      parameters:
+        - $ref: '#/components/parameters/productNameQueryParam'
+        - $ref: '#/components/parameters/categoryNameQueryParam'
+        - $ref: '#/components/parameters/minPriceQueryParam'
+        - $ref: '#/components/parameters/maxPriceQueryParam'
+        - $ref: '#/components/parameters/storeIdQueryParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/ListProducts'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  '/products/{storeId}/stores':
+    parameters:
+      - $ref: '#/components/parameters/storeId'
+    get:
+      summary: Get a product List by StoreId
+      operationId: getProductByStoreId
+      responses:
+        '200':
+          $ref: '#/components/responses/ListProducts'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  '/products/{productId}':
+    parameters:
+      - $ref: '#/components/parameters/productId'
+    get:
+      summary: Get a product by id.
+      operationId: getProductById
+      responses:
+        '200':
+          $ref: '#/components/responses/Product'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      summary: Delete a product by id.
+      operationId: deleteProductById
+      responses:
+        '204':
+          description: Product deleted successfully, no content returned.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      summary: Update a product by id.
+      operationId: updateProductById
+      requestBody:
+        $ref: '#/components/requestBodies/ProductRequestDTO'
+      responses:
+        '200':
+          $ref: '#/components/responses/Product'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  /categories:
+    post:
+      summary: Create a category
+      operationId: createCategory
+      requestBody:
+        $ref: '#/components/requestBodies/CategoryRequestDTO'
+      responses:
+        '201':
+          description: Category created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+    get:
+      summary: Get a list of categories
+      operationId: getCategories
+      responses:
+        '200':
+          $ref: '#/components/responses/ListCategories'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  '/categories/{storeId}/stores':
+    parameters:
+      - $ref: '#/components/parameters/storeId'
+    get:
+      summary: Get a category List by StoreId
+      operationId: getCategoriesByStoreId
+      responses:
+        '200':
+          $ref: '#/components/responses/ListCategories'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  '/categories/{categoryId}':
+    parameters:
+      - $ref: '#/components/parameters/categoryId'
+    get:
+      summary: Get a category by id.
+      operationId: getCategoryById
+      responses:
+        '200':
+          $ref: '#/components/responses/Category'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      summary: Delete a category by id.
+      operationId: deleteCategoryById
+      responses:
+        '204':
+          description: Category deleted successfully, no content returned.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      summary: Update a category by id.
+      operationId: updateCategoryById
+      requestBody:
+        $ref: '#/components/requestBodies/CategoryRequestDTO'
+      responses:
+        '200':
+          $ref: '#/components/responses/Category'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+components:
+  requestBodies:
+    ProductRequestDTO:
+      description: Create a new product
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProductRequestDTO'
+    CategoryRequestDTO:
+      description: Create a new category
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CategoryRequestDTO'
+  parameters:
+    productId:
+      name: productId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/productId'
+    categoryId:
+      name: categoryId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/categoryId'
+    storeId:
+      name: storeId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/storeId'
+    storeIdQueryParam:
+      name: storeId
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/storeId'
+    minPriceQueryParam:
+      name: minPrice
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/minPrice'
+    maxPriceQueryParam:
+      name: maxPrice
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/maxPrice'
+    productNameQueryParam:
+      name: productName
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/productName'
+    categoryNameQueryParam:
+      name: categoryName
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/categoryName'
+    pageNumberQueryParam:
+      name: pageNumberQueryParam
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/pageNumberQueryParam'
+    pageSizeQueryParam:
+      name: pageSizeQueryParam
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/pageSizeQueryParam'
+    sortByQueryParam:
+      name: sortByQueryParam
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/sortByQueryParam'
+  responses:
+    PagedResponseProductDTO:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PagedResponseProductDTO'
+    ListProducts:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ProductDTO'
+    ListCategories:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/CategoryDTO'
+    Product:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProductDTO'
+    Category:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CategoryDTO'
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Problem'
+          example:
+            '400':
+              value:
+                type: 'https://api.example.com/problems/validation-error'
+                status: 400
+                title: Validation Error
+                detail: >-
+                  One or more fields are invalid. See details for more information.
+                instance: 'https://api.example.com/problems/validation-error/12345'
+    Unauthorized:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Problem'
+          example:
+            '400':
+              value:
+                type: 'https://api.example.com/problems/validation-error'
+                status: 401
+                title: Validation Error
+                detail: >-
+                  One or more fields are invalid. See details for more information.
+                instance: 'https://api.example.com/problems/validation-error/12345'
+    Forbidden:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Problem'
+          example:
+            '400':
+              value:
+                type: 'https://api.example.com/problems/validation-error'
+                status: 403
+                title: Validation Error
+                detail: >-
+                  One or more fields are invalid. See details for more information.
+                instance: 'https://api.example.com/problems/validation-error/12345'
+    NotFound:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Problem'
+          example:
+            '400':
+              value:
+                type: 'https://api.example.com/problems/validation-error'
+                status: 404
+                title: Validation Error
+                detail: >-
+                  One or more fields are invalid. See details for more information.
+                instance: 'https://api.example.com/problems/validation-error/12345'
+    UnexpectedError:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Problem'
+          example:
+            '400':
+              value:
+                type: 'https://api.example.com/problems/validation-error'
+                status: 404
+                title: Validation Error
+                detail: >-
+                  One or more fields are invalid. See details for more information.
+                instance: 'https://api.example.com/problems/validation-error/12345'
+  schemas:
+    PagedResponseProductDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDTO'
+        number:
+          type: integer
+          example: 1
+        size:
+          type: integer
+          example: 25
+        totalElements:
+          type: integer
+          format: int64
+          example: 232
+        totalPages:
+          type: integer
+          example: 23
+    ProductRequestDTO:
+      type: object
+      properties:
+        productName:
+          type: string
+          example: "Cafe Latte"
+        price:
+          type: string
+          format: number
+          example: "4.99"
+        categoryId:
+          type: integer
+          format: int64
+          example: 12345
+        storeId:
+          type: integer
+          format: int64
+          example: 12345
+    CategoryRequestDTO:
+      type: object
+      properties:
+        categoryName:
+          type: string
+          example: "Drinks"
+        storeId:
+          type: integer
+          format: int64
+          example: 12345
+    ProductDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 12345
+        productName:
+          type: string
+          example: "Cafe Latte"
+        price:
+          type: string
+          format: number
+          example: "4.99"
+        categoryId:
+          type: integer
+          format: int64
+          example: 12345
+        storeId:
+          type: integer
+          format: int64
+          example: 12345
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-10-01T12:34:56Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2023-10-01T12:34:56Z"
+    CategoryDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 12345
+        categoryName:
+          type: string
+          example: "Drinks"
+        storeId:
+          type: integer
+          format: int64
+          example: 12345
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-10-01T12:34:56Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2023-10-01T12:34:56Z"
+    Problem:
+      type: object
+      properties:
+        error:
+          type: string
+    productId:
+      title: productId
+      description: productId
+      type: integer
+      format: int64
+      minimum: 1
+      maximum: 999999999999
+      example: 1
+    categoryId:
+      title: example
+      description: example
+      type: integer
+      format: int64
+      minimum: 1
+      maximum: 999999999999
+      example: 1
+    storeId:
+      title: example
+      description: example
+      type: integer
+      format: int64
+      minimum: 1
+      maximum: 999999999999
+      example: 1
+    maxPrice:
+      title: example
+      description: example
+      type: number
+      format: double
+      minimum: 0.01
+      maximum: 999.99
+      example: 5.99
+    minPrice:
+      title: example
+      description: example
+      type: number
+      format: double
+      minimum: 0.01
+      maximum: 999.99
+      example: 1.99
+    categoryName:
+      type: string
+      example: "Drinks"
+    productName:
+      type: string
+      example: "Drinks"
+    sortByQueryParam:
+      type: string
+      example: "productName"
+    pageNumberQueryParam:
+      title: example
+      description: example
+      type: integer
+      minimum: 1
+      maximum: 99999
+      example: 1
+    pageSizeQueryParam:
+      title: example
+      description: example
+      type: integer
+      minimum: 1
+      maximum: 99999
+      example: 1

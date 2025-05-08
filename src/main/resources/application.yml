@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5438/companies
+    username: user
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  application:
+    name: company
+
+application:
+  security:
+    jwt:
+      secret-key: "unasecretamuylargaunasecretamuylargaunasecretamuylarga1234"
+      expiration: 86400000
+
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: DEBUG
