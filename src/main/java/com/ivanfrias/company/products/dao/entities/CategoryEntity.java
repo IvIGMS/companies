@@ -1,0 +1,47 @@
+package com.ivanfrias.company.products.dao.entities;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ivanfrias.company.company.dao.entities.CompanyEntity;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.ZonedDateTime;
+import java.util.List;
+
+@Entity
+@Table(name = "categories")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CategoryEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String categoryName;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    @JsonManagedReference
+    private List<ProductEntity> products;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @JoinColumn(name = "company_id")
+    private CompanyEntity company;
+
+    @Column(nullable = false)
+    private Long storeId;
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private ZonedDateTime createdAt;
+
+    @UpdateTimestamp
+    private ZonedDateTime updatedAt;
+}

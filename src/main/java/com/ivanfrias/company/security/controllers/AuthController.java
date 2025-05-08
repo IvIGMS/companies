@@ -4,6 +4,7 @@ import com.ivanfrias.company.security.dto.AuthenticationRequest;
 import com.ivanfrias.company.security.dto.AuthenticationResponse;
 import com.ivanfrias.company.security.dto.RegisterRequest;
 import com.ivanfrias.company.security.services.AuthenticationService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ public class AuthController {
 
     private final AuthenticationService authenticationService;
 
+    @Transactional
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authenticationService.register(request));

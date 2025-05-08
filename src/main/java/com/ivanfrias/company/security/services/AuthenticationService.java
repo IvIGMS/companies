@@ -1,5 +1,6 @@
 package com.ivanfrias.company.security.services;
 
+import com.ivanfrias.company.company.dao.entities.CompanyEntity;
 import com.ivanfrias.company.security.dao.models.entities.UserEntity;
 import com.ivanfrias.company.security.dao.repositories.UserRepository;
 import com.ivanfrias.company.security.dto.AuthenticationRequest;
@@ -27,7 +28,6 @@ public class AuthenticationService {
                 .firstname(request.firstname())
                 .lastname(request.lastname())
                 .isActive(true)
-                .storeId(request.storeId())
                 .role(request.role())
                 .build();
         userRepository.save(user);

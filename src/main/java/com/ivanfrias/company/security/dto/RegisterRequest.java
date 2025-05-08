@@ -8,7 +8,6 @@ public record RegisterRequest(
         String password,
         String firstname,
         String lastname,
-        Long storeId,
         RoleEnum role
 ) {}
 

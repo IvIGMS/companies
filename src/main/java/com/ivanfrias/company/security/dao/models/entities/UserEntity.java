@@ -1,5 +1,6 @@
 package com.ivanfrias.company.security.dao.models.entities;
 
+import com.ivanfrias.company.company.dao.entities.CompanyEntity;
 import com.ivanfrias.company.security.dao.models.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,8 +35,8 @@ public class UserEntity {
     @Column(nullable = false)
     private Boolean isActive = true;
 
-    @Column(nullable = false)
-    private Long storeId;
+    @OneToOne(mappedBy = "user")
+    private CompanyEntity company;
 
     @Column(nullable = false)
     private RoleEnum role;

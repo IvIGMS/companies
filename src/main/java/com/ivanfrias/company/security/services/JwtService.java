@@ -34,7 +34,7 @@ public class JwtService {
         extraClaims.put("firstname", Objects.nonNull(userEntity.getFirstname()) ? userEntity.getFirstname() : null);
         extraClaims.put("lastname", Objects.nonNull(userEntity.getLastname()) ? userEntity.getLastname() : null);
         extraClaims.put("isActive", Objects.nonNull(userEntity.getIsActive()) ? userEntity.getIsActive() : null);
-        extraClaims.put("storeId", Objects.nonNull(userEntity.getStoreId()) ? userEntity.getStoreId() : null);
+        extraClaims.put("companyId", userEntity.getCompany() != null && userEntity.getCompany().getId() != null ? userEntity.getCompany().getId() : null);
         extraClaims.put("role", Objects.nonNull(userEntity.getRole().getValue()) ? userEntity.getRole().getValue() : null);
         return generateToken(extraClaims, userEntity);
     }
