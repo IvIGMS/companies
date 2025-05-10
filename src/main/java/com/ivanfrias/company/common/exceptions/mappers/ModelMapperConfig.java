@@ -1,10 +1,7 @@
 package com.ivanfrias.company.common.exceptions.mappers;
 
 import com.ivanfrias.companies.model.CompanyDTO;
-import com.ivanfrias.companies.model.UserDTO;
 import com.ivanfrias.company.company.dao.entities.CompanyEntity;
-import com.ivanfrias.company.security.dao.models.entities.UserEntity;
-import org.apache.catalina.User;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
