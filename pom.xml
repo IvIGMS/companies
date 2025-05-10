@@ -117,6 +117,13 @@
 			<artifactId>jakarta.annotation-api</artifactId>
 			<version>2.1.1</version> <!-- Usa la versión más reciente -->
 		</dependency>
+		<!-- Model mapper -->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.1.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -157,8 +164,8 @@
 						<configuration>
 							<inputSpec>${project.basedir}/src/main/resources/swagger.yaml</inputSpec> <!-- Ruta al archivo YAML -->
 							<generatorName>spring</generatorName> <!-- Generador para Spring Boot -->
-							<apiPackage>com.ivanfrias.products.api</apiPackage> <!-- Paquete para las interfaces de la API -->
-							<modelPackage>com.ivanfrias.products.model</modelPackage> <!-- Paquete para los modelos -->
+							<apiPackage>com.ivanfrias.companies.api</apiPackage> <!-- Paquete para las interfaces de la API -->
+							<modelPackage>com.ivanfrias.companies.model</modelPackage> <!-- Paquete para los modelos -->
 							<configOptions>
 								<interfaceOnly>true</interfaceOnly> <!-- Solo genera interfaces, no implementaciones -->
 								<useSpringBoot3>true</useSpringBoot3> <!-- Habilita soporte para Spring Boot 3.x -->

@@ -36,6 +36,7 @@ public class JwtService {
         extraClaims.put("isActive", Objects.nonNull(userEntity.getIsActive()) ? userEntity.getIsActive() : null);
         extraClaims.put("companyId", userEntity.getCompany() != null && userEntity.getCompany().getId() != null ? userEntity.getCompany().getId() : null);
         extraClaims.put("role", Objects.nonNull(userEntity.getRole().getValue()) ? userEntity.getRole().getValue() : null);
+        extraClaims.put("user_id", Objects.nonNull(userEntity.getId()) ? userEntity.getId() : null);
         return generateToken(extraClaims, userEntity);
     }
 
@@ -71,7 +72,7 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()

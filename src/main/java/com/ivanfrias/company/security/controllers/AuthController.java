@@ -1,5 +1,8 @@
 package com.ivanfrias.company.security.controllers;
 
+import com.ivanfrias.companies.api.UsersApi;
+import com.ivanfrias.company.common.exceptions.utils.ControllerUtils;
+import com.ivanfrias.company.common.exceptions.utils.UnauthorizedException;
 import com.ivanfrias.company.security.dto.AuthenticationRequest;
 import com.ivanfrias.company.security.dto.AuthenticationResponse;
 import com.ivanfrias.company.security.dto.RegisterRequest;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.ivanfrias.company.common.exceptions.utils.ControllerUtilsConstants.STRING_NO_PREMISSIONS;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -19,7 +24,6 @@ public class AuthController {
 
     private final AuthenticationService authenticationService;
 
-    @Transactional
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authenticationService.register(request));

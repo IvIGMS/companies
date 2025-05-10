@@ -23,8 +23,5 @@ public class AddressEntity {
 
     @Column(nullable = false, length = 100)
     private String country;
-
-    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
-    private CompanyEntity company;
 }
 

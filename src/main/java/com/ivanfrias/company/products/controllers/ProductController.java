@@ -1,7 +1,7 @@
 package com.ivanfrias.company.products.controllers;
 
+import com.ivanfrias.companies.api.ProductsApi;
 import com.ivanfrias.company.products.services.ProductService;
-import com.ivanfrias.products.api.ProductsApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

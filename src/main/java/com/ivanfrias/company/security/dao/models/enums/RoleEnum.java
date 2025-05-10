@@ -1,7 +1,7 @@
 package com.ivanfrias.company.security.dao.models.enums;
 
 public enum RoleEnum {
-    MANAGER("MANAGER"),
+    USER("USER"),
     ADMIN("ADMIN");
 
     private final String role;

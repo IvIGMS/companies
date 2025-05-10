@@ -1,6 +1,7 @@
 package com.ivanfrias.company.common.exceptions.handler;
 
 import com.ivanfrias.company.common.exceptions.NotFoundException;
+import com.ivanfrias.company.common.exceptions.ConflictException;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,5 +21,10 @@ public class ExceptionGlobalHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> globalException(Exception ex, WebRequest request) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<?> handlerConflictException(Exception ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 }

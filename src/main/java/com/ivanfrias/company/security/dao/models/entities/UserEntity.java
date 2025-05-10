@@ -38,6 +38,7 @@ public class UserEntity {
     @OneToOne(mappedBy = "user")
     private CompanyEntity company;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RoleEnum role;
 }

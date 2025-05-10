@@ -6,6 +6,7 @@ import com.ivanfrias.company.security.dao.repositories.UserRepository;
 import com.ivanfrias.company.security.dto.AuthenticationRequest;
 import com.ivanfrias.company.security.dto.AuthenticationResponse;
 import com.ivanfrias.company.security.dto.RegisterRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,13 +22,14 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
+    @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
         var user = UserEntity.builder()
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
                 .firstname(request.firstname())
                 .lastname(request.lastname())
-                .isActive(true)
+                .isActive(false) // Por defecto lo dejamos en false, hay que verificarlo con un endpoint
                 .role(request.role())
                 .build();
         userRepository.save(user);

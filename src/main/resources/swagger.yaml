@@ -1,69 +1,17 @@
 openapi: 3.0.2
 info:
-  title: Products
+  title: CompaniesAPI
   version: v1
 paths:
-  /products/paged:
-    get:
-      summary: Get a list of paged products
-      operationId: getPagedProductsFilter
-      parameters:
-        - $ref: '#/components/parameters/productNameQueryParam'
-        - $ref: '#/components/parameters/categoryNameQueryParam'
-        - $ref: '#/components/parameters/minPriceQueryParam'
-        - $ref: '#/components/parameters/maxPriceQueryParam'
-        - $ref: '#/components/parameters/storeIdQueryParam'
-        - $ref: '#/components/parameters/pageNumberQueryParam'
-        - $ref: '#/components/parameters/pageSizeQueryParam'
-        - $ref: '#/components/parameters/sortByQueryParam'
-      responses:
-        '200':
-          $ref: '#/components/responses/PagedResponseProductDTO'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/UnexpectedError'
-  /products:
+  /companies:
     post:
-      summary: Create a Product
-      operationId: createProduct
+      summary: Create a company
+      operationId: createCompany
       requestBody:
-        $ref: '#/components/requestBodies/ProductRequestDTO'
-      responses:
-        '201':
-          description: Product created successfully.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProductDTO'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/UnexpectedError'
-    get:
-      summary: Get a list of products
-      operationId: getProductsFilter
-      parameters:
-        - $ref: '#/components/parameters/productNameQueryParam'
-        - $ref: '#/components/parameters/categoryNameQueryParam'
-        - $ref: '#/components/parameters/minPriceQueryParam'
-        - $ref: '#/components/parameters/maxPriceQueryParam'
-        - $ref: '#/components/parameters/storeIdQueryParam'
+        $ref: '#/components/requestBodies/CompanyRequestBody'
       responses:
         '200':
-          $ref: '#/components/responses/ListProducts'
+          $ref: '#/components/responses/ResponseCompanyDTO'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -74,15 +22,30 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/UnexpectedError'
-  '/products/{storeId}/stores':
-    parameters:
-      - $ref: '#/components/parameters/storeId'
+  /users/activate-self:
+    patch:
+      summary: Activar usuario por correo electronico.
+      operationId: activateUser
+      responses:
+        '204':
+          description: Usuario activado correctamente, sin contenido.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  /users/get-self:
     get:
-      summary: Get a product List by StoreId
-      operationId: getProductByStoreId
+      summary: Get user-self
+      operationId: getSelfUser
       responses:
         '200':
-          $ref: '#/components/responses/ListProducts'
+          $ref: '#/components/responses/ResponseUserDTO'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -93,6 +56,97 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/UnexpectedError'
+
+#  /products/paged:
+#    get:
+#      summary: Get a list of paged products
+#      operationId: getPagedProductsFilter
+#      parameters:
+#        - $ref: '#/components/parameters/productNameQueryParam'
+#        - $ref: '#/components/parameters/categoryNameQueryParam'
+#        - $ref: '#/components/parameters/minPriceQueryParam'
+#        - $ref: '#/components/parameters/maxPriceQueryParam'
+#        - $ref: '#/components/parameters/storeIdQueryParam'
+#        - $ref: '#/components/parameters/pageNumberQueryParam'
+#        - $ref: '#/components/parameters/pageSizeQueryParam'
+#        - $ref: '#/components/parameters/sortByQueryParam'
+#      responses:
+#        '200':
+#          $ref: '#/components/responses/PagedResponseProductDTO'
+#        '400':
+#          $ref: '#/components/responses/BadRequest'
+#        '401':
+#          $ref: '#/components/responses/Unauthorized'
+#        '403':
+#          $ref: '#/components/responses/Forbidden'
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/UnexpectedError'
+#  /products:
+#    post:
+#      summary: Create a Product
+#      operationId: createProduct
+#      requestBody:
+#        $ref: '#/components/requestBodies/ProductRequestDTO'
+#      responses:
+#        '201':
+#          description: Product created successfully.
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/ProductDTO'
+#        '400':
+#          $ref: '#/components/responses/BadRequest'
+#        '401':
+#          $ref: '#/components/responses/Unauthorized'
+#        '403':
+#          $ref: '#/components/responses/Forbidden'
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/UnexpectedError'
+#    get:
+#      summary: Get a list of products
+#      operationId: getProductsFilter
+#      parameters:
+#        - $ref: '#/components/parameters/productNameQueryParam'
+#        - $ref: '#/components/parameters/categoryNameQueryParam'
+#        - $ref: '#/components/parameters/minPriceQueryParam'
+#        - $ref: '#/components/parameters/maxPriceQueryParam'
+#        - $ref: '#/components/parameters/storeIdQueryParam'
+#      responses:
+#        '200':
+#          $ref: '#/components/responses/ListProducts'
+#        '400':
+#          $ref: '#/components/responses/BadRequest'
+#        '401':
+#          $ref: '#/components/responses/Unauthorized'
+#        '403':
+#          $ref: '#/components/responses/Forbidden'
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/UnexpectedError'
+#  '/products/{storeId}/stores':
+#    parameters:
+#      - $ref: '#/components/parameters/storeId'
+#    get:
+#      summary: Get a product List by StoreId
+#      operationId: getProductByStoreId
+#      responses:
+#        '200':
+#          $ref: '#/components/responses/ListProducts'
+#        '400':
+#          $ref: '#/components/responses/BadRequest'
+#        '401':
+#          $ref: '#/components/responses/Unauthorized'
+#        '403':
+#          $ref: '#/components/responses/Forbidden'
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/UnexpectedError'
   '/products/{productId}':
     parameters:
       - $ref: '#/components/parameters/productId'
@@ -112,153 +166,160 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/UnexpectedError'
-    delete:
-      summary: Delete a product by id.
-      operationId: deleteProductById
-      responses:
-        '204':
-          description: Product deleted successfully, no content returned.
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/UnexpectedError'
-    put:
-      summary: Update a product by id.
-      operationId: updateProductById
-      requestBody:
-        $ref: '#/components/requestBodies/ProductRequestDTO'
-      responses:
-        '200':
-          $ref: '#/components/responses/Product'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/UnexpectedError'
-  /categories:
-    post:
-      summary: Create a category
-      operationId: createCategory
-      requestBody:
-        $ref: '#/components/requestBodies/CategoryRequestDTO'
-      responses:
-        '201':
-          description: Category created successfully.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CategoryDTO'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/UnexpectedError'
-    get:
-      summary: Get a list of categories
-      operationId: getCategories
-      responses:
-        '200':
-          $ref: '#/components/responses/ListCategories'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/UnexpectedError'
-  '/categories/{storeId}/stores':
-    parameters:
-      - $ref: '#/components/parameters/storeId'
-    get:
-      summary: Get a category List by StoreId
-      operationId: getCategoriesByStoreId
-      responses:
-        '200':
-          $ref: '#/components/responses/ListCategories'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/UnexpectedError'
-  '/categories/{categoryId}':
-    parameters:
-      - $ref: '#/components/parameters/categoryId'
-    get:
-      summary: Get a category by id.
-      operationId: getCategoryById
-      responses:
-        '200':
-          $ref: '#/components/responses/Category'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/UnexpectedError'
-    delete:
-      summary: Delete a category by id.
-      operationId: deleteCategoryById
-      responses:
-        '204':
-          description: Category deleted successfully, no content returned.
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/UnexpectedError'
-    put:
-      summary: Update a category by id.
-      operationId: updateCategoryById
-      requestBody:
-        $ref: '#/components/requestBodies/CategoryRequestDTO'
-      responses:
-        '200':
-          $ref: '#/components/responses/Category'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/UnexpectedError'
+#    delete:
+#      summary: Delete a product by id.
+#      operationId: deleteProductById
+#      responses:
+#        '204':
+#          description: Product deleted successfully, no content returned.
+#        '400':
+#          $ref: '#/components/responses/BadRequest'
+#        '401':
+#          $ref: '#/components/responses/Unauthorized'
+#        '403':
+#          $ref: '#/components/responses/Forbidden'
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/UnexpectedError'
+#    put:
+#      summary: Update a product by id.
+#      operationId: updateProductById
+#      requestBody:
+#        $ref: '#/components/requestBodies/ProductRequestDTO'
+#      responses:
+#        '200':
+#          $ref: '#/components/responses/Product'
+#        '400':
+#          $ref: '#/components/responses/BadRequest'
+#        '401':
+#          $ref: '#/components/responses/Unauthorized'
+#        '403':
+#          $ref: '#/components/responses/Forbidden'
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/UnexpectedError'
+#  /categories:
+#    post:
+#      summary: Create a category
+#      operationId: createCategory
+#      requestBody:
+#        $ref: '#/components/requestBodies/CategoryRequestDTO'
+#      responses:
+#        '201':
+#          description: Category created successfully.
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/CategoryDTO'
+#        '400':
+#          $ref: '#/components/responses/BadRequest'
+#        '401':
+#          $ref: '#/components/responses/Unauthorized'
+#        '403':
+#          $ref: '#/components/responses/Forbidden'
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/UnexpectedError'
+#    get:
+#      summary: Get a list of categories
+#      operationId: getCategories
+#      responses:
+#        '200':
+#          $ref: '#/components/responses/ListCategories'
+#        '400':
+#          $ref: '#/components/responses/BadRequest'
+#        '401':
+#          $ref: '#/components/responses/Unauthorized'
+#        '403':
+#          $ref: '#/components/responses/Forbidden'
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/UnexpectedError'
+#  '/categories/{storeId}/stores':
+#    parameters:
+#      - $ref: '#/components/parameters/storeId'
+#    get:
+#      summary: Get a category List by StoreId
+#      operationId: getCategoriesByStoreId
+#      responses:
+#        '200':
+#          $ref: '#/components/responses/ListCategories'
+#        '400':
+#          $ref: '#/components/responses/BadRequest'
+#        '401':
+#          $ref: '#/components/responses/Unauthorized'
+#        '403':
+#          $ref: '#/components/responses/Forbidden'
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/UnexpectedError'
+#  '/categories/{categoryId}':
+#    parameters:
+#      - $ref: '#/components/parameters/categoryId'
+#    get:
+#      summary: Get a category by id.
+#      operationId: getCategoryById
+#      responses:
+#        '200':
+#          $ref: '#/components/responses/Category'
+#        '400':
+#          $ref: '#/components/responses/BadRequest'
+#        '401':
+#          $ref: '#/components/responses/Unauthorized'
+#        '403':
+#          $ref: '#/components/responses/Forbidden'
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/UnexpectedError'
+#    delete:
+#      summary: Delete a category by id.
+#      operationId: deleteCategoryById
+#      responses:
+#        '204':
+#          description: Category deleted successfully, no content returned.
+#        '400':
+#          $ref: '#/components/responses/BadRequest'
+#        '401':
+#          $ref: '#/components/responses/Unauthorized'
+#        '403':
+#          $ref: '#/components/responses/Forbidden'
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/UnexpectedError'
+#    put:
+#      summary: Update a category by id.
+#      operationId: updateCategoryById
+#      requestBody:
+#        $ref: '#/components/requestBodies/CategoryRequestDTO'
+#      responses:
+#        '200':
+#          $ref: '#/components/responses/Category'
+#        '400':
+#          $ref: '#/components/responses/BadRequest'
+#        '401':
+#          $ref: '#/components/responses/Unauthorized'
+#        '403':
+#          $ref: '#/components/responses/Forbidden'
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#        '500':
+#          $ref: '#/components/responses/UnexpectedError'
 components:
   requestBodies:
+    CompanyRequestBody:
+      description: Create a new company
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CompanyRequestDTO'
     ProductRequestDTO:
       description: Create a new product
       required: true
@@ -341,12 +402,24 @@ components:
       schema:
         $ref: '#/components/schemas/sortByQueryParam'
   responses:
+    ResponseUserDTO:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserDTO'
     PagedResponseProductDTO:
       description: OK.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/PagedResponseProductDTO'
+    ResponseCompanyDTO:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CompanyDTO'
     ListProducts:
       description: OK.
       content:
@@ -481,6 +554,55 @@ components:
         totalPages:
           type: integer
           example: 23
+    UserDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 12345
+        email:
+          type: string
+          example: user@user.com
+        firstname:
+          type: string
+          example: Luis
+        lastname:
+          type: string
+          example: Perez
+        isActive:
+          type: boolean
+          example: false
+        companyId:
+          type: integer
+          format: int64
+          example: 12345
+        role:
+          type: string
+          enum:
+            - USER
+            - ADMIN
+          example: USER
+    CompanyRequestDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          example: New York Store
+        address:
+          $ref: '#/components/schemas/AddressDTO'
+    AddressDTO:
+      type: object
+      properties:
+        street:
+          type: string
+          example: "123 Main St"
+        city:
+          type: string
+          example: "New York"
+        country:
+          type: string
+          example: "USA"
     ProductRequestDTO:
       type: object
       properties:
@@ -499,6 +621,30 @@ components:
           type: integer
           format: int64
           example: 12345
+    CompanyDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 12345
+        name:
+          type: string
+          example: New York Store
+        address:
+          $ref: '#/components/schemas/AddressDTO'
+        userId:
+          type: integer
+          format: int64
+          example: 12345
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-10-01T12:34:56Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2023-10-01T12:34:56Z"
     CategoryRequestDTO:
       type: object
       properties:

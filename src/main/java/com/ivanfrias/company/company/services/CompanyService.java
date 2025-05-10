@@ -1,0 +1,37 @@
+package com.ivanfrias.company.company.services;
+
+import com.ivanfrias.companies.model.CompanyDTO;
+import com.ivanfrias.companies.model.CompanyRequestDTO;
+import com.ivanfrias.company.common.exceptions.DataBaseErrorException;
+import com.ivanfrias.company.common.exceptions.ConflictException;
+import com.ivanfrias.company.company.dao.entities.CompanyEntity;
+import com.ivanfrias.company.company.dao.repositories.CompanyRepository;
+import com.ivanfrias.company.security.dao.models.entities.UserEntity;
+import com.ivanfrias.company.security.services.UserService;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class CompanyService {
+    private final CompanyRepository companyRepository;
+    private final UserService userService;
+    private final ModelMapper modelMapper;
+
+    public CompanyDTO createCompany(CompanyRequestDTO companyRequestDTO, Long userId) {
+        CompanyEntity companyEntityToBeSaved = modelMapper.map(companyRequestDTO, CompanyEntity.class);
+        UserEntity user = userService.getUserEntityById(userId);
+        if(!user.getIsActive()){
+            throw new ConflictException("El correo electronico del usuario no ha sido verificado");
+        }
+        companyEntityToBeSaved.setUser(user);
+        CompanyEntity companyEntitySaved;
+        try{
+            companyEntitySaved = companyRepository.save(companyEntityToBeSaved);
+        } catch (Exception e){
+            throw new DataBaseErrorException("Error al introducir la company en la bbdd");
+        }
+        return modelMapper.map(companyEntitySaved, CompanyDTO.class);
+    }
+}
