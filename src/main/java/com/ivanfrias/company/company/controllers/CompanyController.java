@@ -1,5 +1,6 @@
 package com.ivanfrias.company.company.controllers;
 
+import com.ivanfrias.companies.model.CompanyDTO;
 import com.ivanfrias.company.common.exceptions.utils.ControllerUtils;
 import com.ivanfrias.company.common.exceptions.utils.UnauthorizedException;
 import com.ivanfrias.company.company.services.CompanyService;
@@ -27,5 +28,14 @@ public class CompanyController extends ControllerUtils implements CompaniesApi {
 
         Long userId = getAllClaims().get("user_id", Long.class);
         return ResponseEntity.ok(companyService.createCompany(companyRequestDTO, userId));
+    }
+
+    @Override
+    public ResponseEntity<CompanyDTO> getSelfCompany() {
+        if(!checkIsUser()){
+            throw new UnauthorizedException(STRING_NO_PREMISSIONS);
+        }
+        Long userId = getAllClaims().get("user_id", Long.class);
+        return ResponseEntity.ok(companyService.getCompanyByUserId(userId));
     }
 }
