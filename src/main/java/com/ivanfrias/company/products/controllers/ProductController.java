@@ -1,8 +1,10 @@
 package com.ivanfrias.company.products.controllers;
 
 import com.ivanfrias.companies.api.ProductsApi;
+import com.ivanfrias.companies.model.ProductDTO;
 import com.ivanfrias.company.products.services.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,5 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController implements ProductsApi {
     private final ProductService productService;
 
-
+    @Override
+    public ResponseEntity<ProductDTO> getProductById(Long productId) {
+        return ResponseEntity.ok(productService.getProductById(productId));
+    }
 }

@@ -11,7 +11,6 @@ import com.ivanfrias.company.security.dao.models.entities.UserEntity;
 import com.ivanfrias.company.security.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
