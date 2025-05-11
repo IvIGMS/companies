@@ -73,6 +73,42 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/UnexpectedError'
+  /users/{userId}:
+    parameters:
+      - $ref: '#/components/parameters/userId'
+    delete:
+      summary: Delete a user by id
+      operationId: deleteUser
+      responses:
+        '204':
+          description: Usuario eliminado correctamente, sin contenido.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  /users:
+    get:
+      summary: Get users by RoleEnum is USER
+      operationId: getUsers
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseListUserDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 
 #  /products/paged:
 #    get:
@@ -364,18 +400,12 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/categoryId'
-    storeId:
-      name: storeId
+    userId:
+      name: userId
       in: path
       required: true
       schema:
-        $ref: '#/components/schemas/storeId'
-    storeIdQueryParam:
-      name: storeId
-      in: query
-      required: false
-      schema:
-        $ref: '#/components/schemas/storeId'
+        $ref: '#/components/schemas/userId'
     minPriceQueryParam:
       name: minPrice
       in: query
@@ -419,6 +449,14 @@ components:
       schema:
         $ref: '#/components/schemas/sortByQueryParam'
   responses:
+    ResponseListUserDTO:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserDTO'
     ResponseUserDTO:
       description: OK.
       content:
@@ -745,7 +783,7 @@ components:
       minimum: 1
       maximum: 999999999999
       example: 1
-    storeId:
+    userId:
       title: example
       description: example
       type: integer

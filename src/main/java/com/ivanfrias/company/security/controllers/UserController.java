@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import static com.ivanfrias.company.common.exceptions.utils.ControllerUtilsConstants.STRING_NO_PREMISSIONS;
 
 @RestController
@@ -36,5 +38,19 @@ public class UserController extends ControllerUtils implements UsersApi {
         }
         Long userId = getAllClaims().get("user_id", Long.class);
         return ResponseEntity.ok(userService.getUserDTOById(userId));
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteUser(Long userId) {
+        if(!checkIsAdmin()){
+            throw new UnauthorizedException(STRING_NO_PREMISSIONS);
+        }
+        userService.deleteUserById(userId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<List<UserDTO>> getUsers() {
+        return ResponseEntity.ok(userService.getUsers());
     }
 }

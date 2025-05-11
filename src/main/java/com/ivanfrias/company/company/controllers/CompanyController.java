@@ -6,7 +6,6 @@ import com.ivanfrias.company.common.exceptions.utils.UnauthorizedException;
 import com.ivanfrias.company.company.services.CompanyService;
 import com.ivanfrias.companies.api.CompaniesApi;
 import com.ivanfrias.companies.model.CompanyRequestDTO;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;

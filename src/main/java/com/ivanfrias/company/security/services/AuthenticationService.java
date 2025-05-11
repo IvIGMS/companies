@@ -1,7 +1,7 @@
 package com.ivanfrias.company.security.services;
 
-import com.ivanfrias.company.company.dao.entities.CompanyEntity;
 import com.ivanfrias.company.security.dao.models.entities.UserEntity;
+import com.ivanfrias.company.security.dao.models.enums.RoleEnum;
 import com.ivanfrias.company.security.dao.repositories.UserRepository;
 import com.ivanfrias.company.security.dto.AuthenticationRequest;
 import com.ivanfrias.company.security.dto.AuthenticationResponse;
@@ -30,7 +30,7 @@ public class AuthenticationService {
                 .firstname(request.firstname())
                 .lastname(request.lastname())
                 .isActive(false) // Por defecto lo dejamos en false, hay que verificarlo con un endpoint
-                .role(request.role())
+                .role(RoleEnum.USER)
                 .build();
         userRepository.save(user);
 
