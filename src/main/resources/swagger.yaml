@@ -136,51 +136,50 @@ paths:
 #          $ref: '#/components/responses/NotFound'
 #        '500':
 #          $ref: '#/components/responses/UnexpectedError'
-#  /products:
-#    post:
-#      summary: Create a Product
-#      operationId: createProduct
-#      requestBody:
-#        $ref: '#/components/requestBodies/ProductRequestDTO'
-#      responses:
-#        '201':
-#          description: Product created successfully.
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/ProductDTO'
-#        '400':
-#          $ref: '#/components/responses/BadRequest'
-#        '401':
-#          $ref: '#/components/responses/Unauthorized'
-#        '403':
-#          $ref: '#/components/responses/Forbidden'
-#        '404':
-#          $ref: '#/components/responses/NotFound'
-#        '500':
-#          $ref: '#/components/responses/UnexpectedError'
-#    get:
-#      summary: Get a list of products
-#      operationId: getProductsFilter
-#      parameters:
-#        - $ref: '#/components/parameters/productNameQueryParam'
-#        - $ref: '#/components/parameters/categoryNameQueryParam'
-#        - $ref: '#/components/parameters/minPriceQueryParam'
-#        - $ref: '#/components/parameters/maxPriceQueryParam'
-#        - $ref: '#/components/parameters/storeIdQueryParam'
-#      responses:
-#        '200':
-#          $ref: '#/components/responses/ListProducts'
-#        '400':
-#          $ref: '#/components/responses/BadRequest'
-#        '401':
-#          $ref: '#/components/responses/Unauthorized'
-#        '403':
-#          $ref: '#/components/responses/Forbidden'
-#        '404':
-#          $ref: '#/components/responses/NotFound'
-#        '500':
-#          $ref: '#/components/responses/UnexpectedError'
+  /products:
+    post:
+      summary: Create a Product
+      operationId: createProduct
+      requestBody:
+        $ref: '#/components/requestBodies/ProductRequestDTO'
+      responses:
+        '201':
+          description: Product created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+    get:
+      summary: Get a list of products
+      operationId: getProductsFilter
+      parameters:
+        - $ref: '#/components/parameters/productNameQueryParam'
+        - $ref: '#/components/parameters/categoryNameQueryParam'
+        - $ref: '#/components/parameters/minPriceQueryParam'
+        - $ref: '#/components/parameters/maxPriceQueryParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/ListProducts'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 #  '/products/{storeId}/stores':
 #    parameters:
 #      - $ref: '#/components/parameters/storeId'
@@ -253,51 +252,48 @@ paths:
 #          $ref: '#/components/responses/NotFound'
 #        '500':
 #          $ref: '#/components/responses/UnexpectedError'
-#  /categories:
-#    post:
-#      summary: Create a category
-#      operationId: createCategory
-#      requestBody:
-#        $ref: '#/components/requestBodies/CategoryRequestDTO'
-#      responses:
-#        '201':
-#          description: Category created successfully.
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/CategoryDTO'
-#        '400':
-#          $ref: '#/components/responses/BadRequest'
-#        '401':
-#          $ref: '#/components/responses/Unauthorized'
-#        '403':
-#          $ref: '#/components/responses/Forbidden'
-#        '404':
-#          $ref: '#/components/responses/NotFound'
-#        '500':
-#          $ref: '#/components/responses/UnexpectedError'
+  /categories:
+    get:
+      summary: Get a category List by userId
+      operationId: getCategoriesByUserId
+      responses:
+        '200':
+          $ref: '#/components/responses/ListCategories'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      summary: Create a category
+      operationId: createCategory
+      requestBody:
+        $ref: '#/components/requestBodies/CategoryRequestDTO'
+      responses:
+        '201':
+          description: Category created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 #    get:
 #      summary: Get a list of categories
 #      operationId: getCategories
-#      responses:
-#        '200':
-#          $ref: '#/components/responses/ListCategories'
-#        '400':
-#          $ref: '#/components/responses/BadRequest'
-#        '401':
-#          $ref: '#/components/responses/Unauthorized'
-#        '403':
-#          $ref: '#/components/responses/Forbidden'
-#        '404':
-#          $ref: '#/components/responses/NotFound'
-#        '500':
-#          $ref: '#/components/responses/UnexpectedError'
-#  '/categories/{storeId}/stores':
-#    parameters:
-#      - $ref: '#/components/parameters/storeId'
-#    get:
-#      summary: Get a category List by StoreId
-#      operationId: getCategoriesByStoreId
 #      responses:
 #        '200':
 #          $ref: '#/components/responses/ListCategories'
@@ -425,6 +421,12 @@ components:
       schema:
         $ref: '#/components/schemas/productName'
     categoryNameQueryParam:
+      name: categoryName
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/categoryName'
+    companyIdQueryParam:
       name: categoryName
       in: query
       required: false
@@ -672,10 +674,6 @@ components:
           type: integer
           format: int64
           example: 12345
-        storeId:
-          type: integer
-          format: int64
-          example: 12345
     CompanyDTO:
       type: object
       properties:
@@ -706,10 +704,6 @@ components:
         categoryName:
           type: string
           example: "Drinks"
-        storeId:
-          type: integer
-          format: int64
-          example: 12345
     ProductDTO:
       type: object
       properties:
@@ -728,7 +722,7 @@ components:
           type: integer
           format: int64
           example: 12345
-        storeId:
+        companyId:
           type: integer
           format: int64
           example: 12345
@@ -750,7 +744,7 @@ components:
         categoryName:
           type: string
           example: "Drinks"
-        storeId:
+        companyId:
           type: integer
           format: int64
           example: 12345

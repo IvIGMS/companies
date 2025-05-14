@@ -46,4 +46,12 @@ public class CompanyService {
                 );
         return modelMapper.map(company, CompanyDTO.class);
     }
+
+    public CompanyEntity getCompanyEntityByUserId(Long userId) {
+        return companyRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new NotFoundException(
+                        "No se ha encontrado la company con el id indicado")
+                );
+    }
 }

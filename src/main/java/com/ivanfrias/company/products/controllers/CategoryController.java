@@ -1,11 +1,11 @@
 package com.ivanfrias.company.products.controllers;
 
-import com.ivanfrias.companies.api.ProductsApi;
-import com.ivanfrias.companies.model.ProductDTO;
-import com.ivanfrias.companies.model.ProductRequestDTO;
+import com.ivanfrias.companies.api.CategoriesApi;
+import com.ivanfrias.companies.model.CategoryDTO;
+import com.ivanfrias.companies.model.CategoryRequestDTO;
 import com.ivanfrias.company.common.exceptions.utils.ControllerUtils;
 import com.ivanfrias.company.common.exceptions.utils.UnauthorizedException;
-import com.ivanfrias.company.products.services.ProductService;
+import com.ivanfrias.company.products.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,31 +18,26 @@ import static com.ivanfrias.company.common.exceptions.utils.ControllerUtilsConst
 @RestController
 @RequestMapping("api/v1")
 @RequiredArgsConstructor
-public class ProductController extends ControllerUtils implements ProductsApi {
-    private final ProductService productService;
+public class CategoryController extends ControllerUtils implements CategoriesApi {
+    private final CategoryService categoryService;
 
     @Override
-    public ResponseEntity<ProductDTO> getProductById(Long productId) {
-        return ResponseEntity.ok(productService.getProductById(productId));
-    }
-
-    @Override
-    public ResponseEntity<ProductDTO> createProduct(ProductRequestDTO productRequestDTO) {
+    public ResponseEntity<CategoryDTO> createCategory(CategoryRequestDTO categoryRequestDTO) {
         if(!checkIsUser()){
             throw new UnauthorizedException(STRING_NO_PREMISSIONS);
         }
 
         Long userId = getAllClaims().get("user_id", Long.class);
-        return ResponseEntity.ok(productService.createProduct(productRequestDTO, userId));
+        return ResponseEntity.ok(categoryService.createCategory(categoryRequestDTO, userId));
     }
 
     @Override
-    public ResponseEntity<List<ProductDTO>> getProductsFilter(String productName, String categoryName, Double minPrice, Double maxPrice) {
+    public ResponseEntity<List<CategoryDTO>> getCategoriesByUserId() {
         if(!checkIsUser()){
             throw new UnauthorizedException(STRING_NO_PREMISSIONS);
         }
 
         Long userId = getAllClaims().get("user_id", Long.class);
-        return ResponseEntity.ok(productService.getProductsFilter(productName, categoryName, minPrice, maxPrice, userId));
+        return ResponseEntity.ok(categoryService.getCategoriesByUserId(userId));
     }
 }

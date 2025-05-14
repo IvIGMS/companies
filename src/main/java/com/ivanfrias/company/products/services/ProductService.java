@@ -1,22 +1,59 @@
 package com.ivanfrias.company.products.services;
 
-import com.ivanfrias.companies.model.ProductDTO;
+ import com.ivanfrias.companies.model.ProductDTO;
+import com.ivanfrias.companies.model.ProductRequestDTO;
+import com.ivanfrias.company.common.exceptions.DataBaseErrorException;
 import com.ivanfrias.company.common.exceptions.NotFoundException;
-import com.ivanfrias.company.products.dao.entities.ProductEntity;
+ import com.ivanfrias.company.company.dao.entities.CompanyEntity;
+ import com.ivanfrias.company.company.services.CompanyService;
+ import com.ivanfrias.company.products.dao.entities.ProductEntity;
 import com.ivanfrias.company.products.dao.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+ import java.util.List;
+ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
+    private final CompanyService companyService;
+    private final CategoryService categoryService;
 
     public ProductDTO getProductById(Long productId) {
         ProductEntity productEntity = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException("Product not found: " + productId));
         return modelMapper.map(productEntity, ProductDTO.class);
+    }
+
+    public ProductDTO createProduct(ProductRequestDTO productRequestDTO, Long userId) {
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setProductName(productRequestDTO.getProductName());
+        productEntity.setPrice(productRequestDTO.getPrice());
+        productEntity.setCompany(companyService.getCompanyEntityByUserId(userId));
+        productEntity.setCategory(categoryService.getCategoriesById(userId, productRequestDTO.getCategoryId()));
+
+        if(Objects.isNull(productEntity.getCategory())) {
+            throw new NotFoundException("No existe la categoría introducida");
+        }
+
+        ProductEntity productSaved;
+        try{
+            productSaved = productRepository.save(productEntity);
+        } catch (Exception e){
+            throw new DataBaseErrorException("Error al introducir el producto en la bbdd");
+        }
+        return modelMapper.map(productSaved, ProductDTO.class);
+    }
+
+    public List<ProductDTO> getProductsFilter(String productName, String categoryName, Double minPrice, Double maxPrice, Long userId) {
+        CompanyEntity company = companyService.getCompanyEntityByUserId(userId);
+        List<ProductEntity> productEntities = productRepository.getProductsFilter(productName, categoryName, minPrice, maxPrice, company.getId());
+        return productEntities.stream()
+                .map(productEntity -> modelMapper.map(productEntity, ProductDTO.class))
+                .toList();
     }
 }

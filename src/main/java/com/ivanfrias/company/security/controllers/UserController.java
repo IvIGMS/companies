@@ -51,6 +51,9 @@ public class UserController extends ControllerUtils implements UsersApi {
 
     @Override
     public ResponseEntity<List<UserDTO>> getUsers() {
+        if(!checkIsAdmin()){
+            throw new UnauthorizedException(STRING_NO_PREMISSIONS);
+        }
         return ResponseEntity.ok(userService.getUsers());
     }
 }
