@@ -40,4 +40,20 @@ public class CategoryController extends ControllerUtils implements CategoriesApi
         Long userId = getAllClaims().get("user_id", Long.class);
         return ResponseEntity.ok(categoryService.getCategoriesByUserId(userId));
     }
+
+    @Override
+    public ResponseEntity<Void> deleteCategoryById(Long categoryId) {
+        if(!checkIsUser()){
+            throw new UnauthorizedException(STRING_NO_PREMISSIONS);
+        }
+
+        Long userId = getAllClaims().get("user_id", Long.class);
+        categoryService.deleteCategoryById(categoryId, userId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<CategoryDTO> getCategoryById(Long categoryId) {
+        return CategoriesApi.super.getCategoryById(categoryId);
+    }
 }

@@ -353,41 +353,41 @@ paths:
 #          $ref: '#/components/responses/NotFound'
 #        '500':
 #          $ref: '#/components/responses/UnexpectedError'
-#  '/categories/{categoryId}':
-#    parameters:
-#      - $ref: '#/components/parameters/categoryId'
-#    get:
-#      summary: Get a category by id.
-#      operationId: getCategoryById
-#      responses:
-#        '200':
-#          $ref: '#/components/responses/Category'
-#        '400':
-#          $ref: '#/components/responses/BadRequest'
-#        '401':
-#          $ref: '#/components/responses/Unauthorized'
-#        '403':
-#          $ref: '#/components/responses/Forbidden'
-#        '404':
-#          $ref: '#/components/responses/NotFound'
-#        '500':
-#          $ref: '#/components/responses/UnexpectedError'
-#    delete:
-#      summary: Delete a category by id.
-#      operationId: deleteCategoryById
-#      responses:
-#        '204':
-#          description: Category deleted successfully, no content returned.
-#        '400':
-#          $ref: '#/components/responses/BadRequest'
-#        '401':
-#          $ref: '#/components/responses/Unauthorized'
-#        '403':
-#          $ref: '#/components/responses/Forbidden'
-#        '404':
-#          $ref: '#/components/responses/NotFound'
-#        '500':
-#          $ref: '#/components/responses/UnexpectedError'
+  '/categories/{categoryId}':
+    parameters:
+      - $ref: '#/components/parameters/categoryId'
+    get:
+      summary: Get a category by id.
+      operationId: getCategoryById
+      responses:
+        '200':
+          $ref: '#/components/responses/Category'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      summary: Delete a category by id.
+      operationId: deleteCategoryById
+      responses:
+        '204':
+          description: Category deleted successfully, no content returned.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 #    put:
 #      summary: Update a category by id.
 #      operationId: updateCategoryById
@@ -853,6 +853,9 @@ components:
           type: integer
           format: int64
           example: 12345
+        productSize:
+          type: integer
+          example: 10
         createdAt:
           type: string
           format: date-time

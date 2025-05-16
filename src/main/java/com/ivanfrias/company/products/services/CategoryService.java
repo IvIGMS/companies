@@ -2,6 +2,7 @@ package com.ivanfrias.company.products.services;
 
 import com.ivanfrias.companies.model.CategoryDTO;
 import com.ivanfrias.companies.model.CategoryRequestDTO;
+import com.ivanfrias.company.common.exceptions.ConflictException;
 import com.ivanfrias.company.common.exceptions.DataBaseErrorException;
 import com.ivanfrias.company.common.exceptions.NotFoundException;
 import com.ivanfrias.company.company.dao.entities.CompanyEntity;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -42,12 +44,28 @@ public class CategoryService {
             throw new NotFoundException("No hay ninguna categoría asociada a este user");
         }
         return categoryEntities.stream()
-                .map(categoryEntity -> modelMapper.map(categoryEntity, CategoryDTO.class))
+                .map(categoryEntity -> {
+                    CategoryDTO dto = modelMapper.map(categoryEntity, CategoryDTO.class);
+                    dto.setProductSize(
+                            categoryEntity.getProducts() != null ? categoryEntity.getProducts().size() : 0
+                    );
+                    return dto;
+                })
+                .sorted(Comparator.comparing(CategoryDTO::getProductSize).reversed())
                 .toList();
     }
 
     public CategoryEntity getCategoriesById(Long userId, Long categoryId) {
         CompanyEntity company = companyService.getCompanyEntityByUserId(userId);
         return categoryRepository.findByCompanyIdAndId(company.getId(), categoryId);
+    }
+
+    public void deleteCategoryById(Long categoryId, Long userId) {
+        CategoryEntity categoryDTO = getCategoriesById(userId, categoryId);
+        if(categoryDTO!=null && categoryDTO.getProducts()!=null && categoryDTO.getProducts().isEmpty()) {
+            categoryRepository.deleteById(categoryId);
+        } else {
+            throw new ConflictException("La categoría no exite, no está vinculada a este user o tiene al menos un producto vinculado");
+        }
     }
 }
