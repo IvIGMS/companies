@@ -824,6 +824,9 @@ components:
           type: integer
           format: int64
           example: 12345
+        categoryName:
+          type: string
+          example: "Meals"
         companyId:
           type: integer
           format: int64
