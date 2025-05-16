@@ -703,6 +703,9 @@ components:
           type: integer
           format: int64
           example: 12345
+        companyName:
+          type: string
+          example: Microsoft
         role:
           type: string
           enum:
