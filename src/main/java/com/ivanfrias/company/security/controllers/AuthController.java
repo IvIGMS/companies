@@ -1,36 +1,39 @@
 package com.ivanfrias.company.security.controllers;
 
-import com.ivanfrias.companies.api.UsersApi;
-import com.ivanfrias.company.common.exceptions.utils.ControllerUtils;
-import com.ivanfrias.company.common.exceptions.utils.UnauthorizedException;
-import com.ivanfrias.company.security.dto.AuthenticationRequest;
-import com.ivanfrias.company.security.dto.AuthenticationResponse;
-import com.ivanfrias.company.security.dto.RegisterRequest;
+import com.ivanfrias.companies.api.LoginApi;
+import com.ivanfrias.companies.api.RegisterApi;
+import com.ivanfrias.companies.model.AuthenticationDTO;
+import com.ivanfrias.companies.model.AuthenticationRequestDTO;
+import com.ivanfrias.companies.model.RegisterRequestDTO;
 import com.ivanfrias.company.security.services.AuthenticationService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.NativeWebRequest;
 
-import static com.ivanfrias.company.common.exceptions.utils.ControllerUtilsConstants.STRING_NO_PREMISSIONS;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements RegisterApi, LoginApi {
 
     private final AuthenticationService authenticationService;
 
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(authenticationService.register(request));
+    @Override
+    public ResponseEntity<AuthenticationDTO> login(AuthenticationRequestDTO authenticationRequestDTO) {
+        return ResponseEntity.ok(authenticationService.authenticate(authenticationRequestDTO));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+    @Override
+    public ResponseEntity<AuthenticationDTO> register(RegisterRequestDTO registerRequestDTO) {
+        return ResponseEntity.ok(authenticationService.register(registerRequestDTO));
+
+    }
+
+    @Override
+    public Optional<NativeWebRequest> getRequest() {
+        return RegisterApi.super.getRequest();
     }
 }

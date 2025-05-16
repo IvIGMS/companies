@@ -2,6 +2,9 @@ openapi: 3.0.2
 info:
   title: CompaniesAPI
   version: v1
+tags:
+  - name: auth
+    description: Endpoints de autenticación
 security:
   - bearerAuth: []
 paths:
@@ -111,7 +114,48 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/UnexpectedError'
-
+  /login:
+    post:
+      summary: Login de un user
+      operationId: login
+      requestBody:
+        $ref: '#/components/requestBodies/AuthenticationRequestBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/AuthenticationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      tags:
+        - auth
+  /register:
+    post:
+      summary: Register de un user
+      operationId: register
+      requestBody:
+        $ref: '#/components/requestBodies/RegisterRequestBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/AuthenticationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      tags:
+        - auth
 #  /products/paged:
 #    get:
 #      summary: Get a list of paged products
@@ -364,6 +408,23 @@ paths:
 #          $ref: '#/components/responses/UnexpectedError'
 components:
   requestBodies:
+    AuthenticationRequestBody:
+      description: Login de un user
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AuthenticationRequestDTO'
+          example:
+            email: "usuario@ejemplo.com"
+            password: "123456"
+    RegisterRequestBody:
+      description: Registrar un user
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RegisterRequestDTO'
     CompanyRequestBody:
       description: Create a new company
       required: true
@@ -453,6 +514,12 @@ components:
       schema:
         $ref: '#/components/schemas/sortByQueryParam'
   responses:
+    AuthenticationResponse:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AuthenticationDTO'
     ResponseListUserDTO:
       description: OK.
       content:
@@ -642,6 +709,36 @@ components:
             - USER
             - ADMIN
           example: USER
+    AuthenticationRequestDTO:
+      type: object
+      properties:
+        email:
+          type: string
+          example: friasgilivan@gmail.com
+        password:
+          type: string
+          example: 123456
+    RegisterRequestDTO:
+      type: object
+      properties:
+        email:
+          type: string
+          example: friasgilivan@gmail.com
+        password:
+          type: string
+          example: 123456
+        firstname:
+          type: string
+          example: 123456
+        lastname:
+          type: string
+          example: 123456
+    AuthenticationDTO:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdG5hbW...
     CompanyRequestDTO:
       type: object
       properties:

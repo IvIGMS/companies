@@ -1,11 +1,11 @@
 package com.ivanfrias.company.security.services;
 
+import com.ivanfrias.companies.model.AuthenticationDTO;
+import com.ivanfrias.companies.model.AuthenticationRequestDTO;
+import com.ivanfrias.companies.model.RegisterRequestDTO;
 import com.ivanfrias.company.security.dao.models.entities.UserEntity;
 import com.ivanfrias.company.security.dao.models.enums.RoleEnum;
 import com.ivanfrias.company.security.dao.repositories.UserRepository;
-import com.ivanfrias.company.security.dto.AuthenticationRequest;
-import com.ivanfrias.company.security.dto.AuthenticationResponse;
-import com.ivanfrias.company.security.dto.RegisterRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,13 +23,13 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     @Transactional
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationDTO register(RegisterRequestDTO request) {
         var user = UserEntity.builder()
-                .email(request.email())
-                .password(passwordEncoder.encode(request.password()))
-                .firstname(request.firstname())
-                .lastname(request.lastname())
-                .isActive(false) // Por defecto lo dejamos en false, hay que verificarlo con un endpoint
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
+                .isActive(false)
                 .role(RoleEnum.USER)
                 .build();
         userRepository.save(user);
@@ -41,23 +41,26 @@ public class AuthenticationService {
                 .accountLocked(!user.getIsActive())
                 .build();
 
-        var jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return AuthenticationDTO.builder()
+                .token(jwtService.generateToken(user))
+                .build();
     }
 
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationDTO authenticate(AuthenticationRequestDTO request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.email(),
-                        request.password()
+                        request.getEmail(),
+                        request.getPassword()
                 )
         );
 
         var jwtToken = jwtService.generateToken(
-                userRepository.findByEmail(request.email()).orElse(UserEntity.builder().build())
+                userRepository.findByEmail(request.getEmail()).orElse(UserEntity.builder().build())
         );
-        return new AuthenticationResponse(jwtToken);
+        return AuthenticationDTO.builder()
+                .token(jwtToken)
+                .build();
     }
 }
 
