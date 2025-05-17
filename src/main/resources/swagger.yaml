@@ -275,6 +275,25 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/UnexpectedError'
+  /orders/{orderId}/delivered:
+    parameters:
+      - $ref: '#/components/parameters/orderId'
+    patch:
+      summary: Activate isDelivered field.
+      operationId: isDelivered
+      responses:
+        '204':
+          description: Pedido entregado correctamente, sin contenido.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /orders:
     get:
       summary: Get a list of orders
@@ -502,6 +521,12 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/userId'
+    orderId:
+      name: orderId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/orderId'
     minPriceQueryParam:
       name: minPrice
       in: query
@@ -995,6 +1020,14 @@ components:
       maximum: 999999999999
       example: 1
     userId:
+      title: example
+      description: example
+      type: integer
+      format: int64
+      minimum: 1
+      maximum: 999999999999
+      example: 1
+    orderId:
       title: example
       description: example
       type: integer
