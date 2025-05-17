@@ -276,6 +276,22 @@ paths:
         '500':
           $ref: '#/components/responses/UnexpectedError'
   /orders:
+    get:
+      summary: Get a list of orders
+      operationId: getOrders
+      responses:
+        '200':
+          $ref: '#/components/responses/ListOrders'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
     post:
       summary: Create a order
       operationId: createOrder
@@ -529,6 +545,14 @@ components:
       schema:
         $ref: '#/components/schemas/sortByQueryParam'
   responses:
+    ListOrders:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrderDTO'
     OrderResponse:
       description: OK.
       content:

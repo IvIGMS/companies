@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -53,7 +54,7 @@ public class OrderEntity {
     @PreUpdate
     private void calculatePriceUnit() {
         if (totalAmount != null && totalPrice != null && totalAmount.compareTo(BigDecimal.ZERO) != 0) {
-            this.priceUnit = totalPrice.divide(totalAmount, 5, BigDecimal.ROUND_HALF_UP);
+            this.priceUnit = totalPrice.divide(totalAmount, 2, RoundingMode.HALF_UP);
         } else {
             this.priceUnit = BigDecimal.ZERO;
         }

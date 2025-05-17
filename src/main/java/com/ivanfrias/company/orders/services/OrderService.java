@@ -9,10 +9,11 @@ import com.ivanfrias.company.orders.dao.entities.OrderEntity;
 import com.ivanfrias.company.orders.dao.repositories.OrderRepository;
 import com.ivanfrias.company.products.dao.entities.ProductEntity;
 import com.ivanfrias.company.products.services.ProductService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,5 +34,13 @@ public class OrderService {
         OrderEntity orderSaved = orderRepository.save(orderToBeSaved);
 
         return modelMapper.map(orderSaved, OrderDTO.class);
+    }
+
+    public List<OrderDTO> getOrders(Long userId) {
+        CompanyEntity company = companyService.getCompanyEntityByUserId(userId);
+        List<OrderEntity> orders = orderRepository.getOrdersByCompanyId(company.getId());
+        return orders.stream()
+                .map(orderEntity -> modelMapper.map(orderEntity, OrderDTO.class))
+                .toList();
     }
 }
