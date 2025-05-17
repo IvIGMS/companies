@@ -57,6 +57,7 @@ public class OrderService {
                 .toList();
     }
 
+    @Transactional
     public void isDelivered(Long orderId, Long userId) {
         CompanyEntity company = companyService.getCompanyEntityByUserId(userId);
         OrderEntity order = getOrderEntityById(orderId);
@@ -66,5 +67,6 @@ public class OrderService {
         }
         order.setDelivered(true);
         orderRepository.save(order);
+        product.setQuantity(product.getQuantity() + order.getTotalAmount());
     }
 }

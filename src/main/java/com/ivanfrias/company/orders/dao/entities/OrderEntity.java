@@ -27,7 +27,7 @@ public class OrderEntity {
     private String providerName;
 
     @Column(nullable = false)
-    private BigDecimal totalAmount;
+    private Integer totalAmount;
 
     @Column(nullable = false)
     private BigDecimal totalPrice;
@@ -53,8 +53,9 @@ public class OrderEntity {
     @PrePersist
     @PreUpdate
     private void calculatePriceUnit() {
-        if (totalAmount != null && totalPrice != null && totalAmount.compareTo(BigDecimal.ZERO) != 0) {
-            this.priceUnit = totalPrice.divide(totalAmount, 2, RoundingMode.HALF_UP);
+        if (totalAmount != null && totalPrice != null && totalAmount != 0) {
+            BigDecimal amountAsBigDecimal = BigDecimal.valueOf(totalAmount);
+            this.priceUnit = totalPrice.divide(amountAsBigDecimal, 2, RoundingMode.HALF_UP);
         } else {
             this.priceUnit = BigDecimal.ZERO;
         }

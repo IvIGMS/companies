@@ -747,9 +747,8 @@ components:
           type: string
           example: Coca-cola
         totalAmount:
-          type: string
-          format: number
-          example: "90"
+          type: integer
+          example: 12345
         totalPrice:
           type: string
           format: number
