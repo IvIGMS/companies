@@ -71,8 +71,13 @@ public class ProductController extends ControllerUtils implements ProductsApi {
             Integer pageSizeQueryParam,
             String sortByQueryParam
     ) {
+        if(!checkIsUser()){
+            throw new UnauthorizedException(STRING_NO_PREMISSIONS);
+        }
+
+        Long userId = getAllClaims().get("user_id", Long.class);
         Pageable pageable = PaginationUtils.createPageable(pageNumberQueryParam, pageSizeQueryParam, sortByQueryParam);
-        Page<ProductDTO> products = productService.getPagedProductsFilter(productName, categoryName, minPrice, maxPrice, pageable);
+        Page<ProductDTO> products = productService.getPagedProductsFilter(productName, categoryName, userId, minPrice, maxPrice, pageable);
         return ResponseEntity.ok(PaginationUtils.fromPage(products));
     }
 }

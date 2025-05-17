@@ -824,6 +824,9 @@ components:
           type: integer
           format: int64
           example: 12345
+        quantity:
+          type: integer
+          example: 65
         createdAt:
           type: string
           format: date-time

@@ -8,7 +8,8 @@ import com.ivanfrias.company.common.exceptions.NotFoundException;
  import com.ivanfrias.company.company.services.CompanyService;
  import com.ivanfrias.company.products.dao.entities.ProductEntity;
 import com.ivanfrias.company.products.dao.repositories.ProductRepository;
-import lombok.RequiredArgsConstructor;
+ import com.ivanfrias.company.security.dao.models.entities.UserEntity;
+ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
  import org.springframework.data.domain.Page;
  import org.springframework.data.domain.Pageable;
@@ -41,6 +42,7 @@ public class ProductService {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setProductName(productRequestDTO.getProductName());
         productEntity.setPrice(productRequestDTO.getPrice());
+        productEntity.setQuantity(0);
         productEntity.setCompany(companyService.getCompanyEntityByUserId(userId));
         productEntity.setCategory(categoryService.getCategoriesById(userId, productRequestDTO.getCategoryId()));
 
@@ -73,8 +75,9 @@ public class ProductService {
         productRepository.deleteById(productId);
     }
 
-    public Page<ProductDTO> getPagedProductsFilter(String productName, String categoryName, Double minPrice, Double maxPrice, Pageable pageable) {
-        Page<ProductEntity> productEntitiesPaged = (Page<ProductEntity>) productRepository.getPagedProductsFilter(productName, categoryName, minPrice, maxPrice, pageable);
+    public Page<ProductDTO> getPagedProductsFilter(String productName, String categoryName, Long userId, Double minPrice, Double maxPrice, Pageable pageable) {
+        CompanyEntity company = companyService.getCompanyEntityByUserId(userId);
+        Page<ProductEntity> productEntitiesPaged = (Page<ProductEntity>) productRepository.getPagedProductsFilter(productName, categoryName, company.getId(), minPrice, maxPrice, pageable);
 
         if(CollectionUtils.isEmpty(productEntitiesPaged.getContent())){
             throw new NotFoundException("No hay ningun producto registrado en la aplicación");

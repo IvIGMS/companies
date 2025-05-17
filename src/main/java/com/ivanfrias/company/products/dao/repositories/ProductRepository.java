@@ -26,13 +26,15 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     );
 
     @Query("SELECT p FROM ProductEntity p " +
-            "WHERE (:productName IS NULL OR p.productName = :productName) " +
-            "AND (:categoryName IS NULL OR p.category.categoryName = :categoryName) " +
-            "AND (:minPrice IS NULL OR p.price >= :minPrice) " +
-            "AND (:maxPrice IS NULL OR p.price <= :maxPrice) "
+            " WHERE p.company.id = :companyId" +
+            " AND (:productName IS NULL OR p.productName = :productName) " +
+            " AND (:categoryName IS NULL OR p.category.categoryName = :categoryName) " +
+            " AND (:minPrice IS NULL OR p.price >= :minPrice) " +
+            " AND (:maxPrice IS NULL OR p.price <= :maxPrice) "
     )
     Page<ProductEntity> getPagedProductsFilter(@Param("productName") String productName,
                                                @Param("categoryName") String categoryName,
+                                               @Param("companyId") Long companyId,
                                                @Param("minPrice") Double minPrice,
                                                @Param("maxPrice") Double maxPrice,
                                                Pageable pageable
