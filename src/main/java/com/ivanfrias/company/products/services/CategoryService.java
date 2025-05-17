@@ -57,15 +57,16 @@ public class CategoryService {
 
     public CategoryEntity getCategoriesById(Long userId, Long categoryId) {
         CompanyEntity company = companyService.getCompanyEntityByUserId(userId);
-        return categoryRepository.findByCompanyIdAndId(company.getId(), categoryId);
+        return categoryRepository.findByCompanyIdAndId(company.getId(), categoryId)
+                .orElseThrow(() -> new NotFoundException("Category not found: " + categoryId));
     }
 
     public void deleteCategoryById(Long categoryId, Long userId) {
-        CategoryEntity categoryDTO = getCategoriesById(userId, categoryId);
-        if(categoryDTO!=null && categoryDTO.getProducts()!=null && categoryDTO.getProducts().isEmpty()) {
+        CategoryEntity category = getCategoriesById(userId, categoryId);
+        if(category.getProducts()!=null && category.getProducts().isEmpty()) {
             categoryRepository.deleteById(categoryId);
         } else {
-            throw new ConflictException("La categoría no exite, no está vinculada a este user o tiene al menos un producto vinculado");
+            throw new ConflictException("La categoria tiene al menos un producto vinculado");
         }
     }
 }

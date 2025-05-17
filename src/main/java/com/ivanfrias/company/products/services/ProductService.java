@@ -29,6 +29,11 @@ public class ProductService {
         return modelMapper.map(productEntity, ProductDTO.class);
     }
 
+    public ProductEntity getProductEntityById(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("Product not found: " + productId));
+    }
+
     public ProductDTO createProduct(ProductRequestDTO productRequestDTO, Long userId) {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setProductName(productRequestDTO.getProductName());
@@ -55,5 +60,13 @@ public class ProductService {
         return productEntities.stream()
                 .map(productEntity -> modelMapper.map(productEntity, ProductDTO.class))
                 .toList();
+    }
+
+    public void deleteProductById(Long userId, Long productId) {
+        ProductEntity productEntity = getProductEntityById(productId);
+        if(!productEntity.getCompany().getUser().getId().equals(userId)) {
+            throw new NotFoundException("Este product id no pertence al usuario");
+        }
+        productRepository.deleteById(productId);
     }
 }

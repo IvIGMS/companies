@@ -45,4 +45,15 @@ public class ProductController extends ControllerUtils implements ProductsApi {
         Long userId = getAllClaims().get("user_id", Long.class);
         return ResponseEntity.ok(productService.getProductsFilter(productName, categoryName, minPrice, maxPrice, userId));
     }
+
+    @Override
+    public ResponseEntity<Void> deleteProductById(Long productId) {
+        if(!checkIsUser()){
+            throw new UnauthorizedException(STRING_NO_PREMISSIONS);
+        }
+
+        Long userId = getAllClaims().get("user_id", Long.class);
+        productService.deleteProductById(userId, productId);
+        return ResponseEntity.noContent().build();
+    }
 }

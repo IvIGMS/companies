@@ -156,32 +156,31 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
       tags:
         - auth
-#  /products/paged:
-#    get:
-#      summary: Get a list of paged products
-#      operationId: getPagedProductsFilter
-#      parameters:
-#        - $ref: '#/components/parameters/productNameQueryParam'
-#        - $ref: '#/components/parameters/categoryNameQueryParam'
-#        - $ref: '#/components/parameters/minPriceQueryParam'
-#        - $ref: '#/components/parameters/maxPriceQueryParam'
-#        - $ref: '#/components/parameters/storeIdQueryParam'
-#        - $ref: '#/components/parameters/pageNumberQueryParam'
-#        - $ref: '#/components/parameters/pageSizeQueryParam'
-#        - $ref: '#/components/parameters/sortByQueryParam'
-#      responses:
-#        '200':
-#          $ref: '#/components/responses/PagedResponseProductDTO'
-#        '400':
-#          $ref: '#/components/responses/BadRequest'
-#        '401':
-#          $ref: '#/components/responses/Unauthorized'
-#        '403':
-#          $ref: '#/components/responses/Forbidden'
-#        '404':
-#          $ref: '#/components/responses/NotFound'
-#        '500':
-#          $ref: '#/components/responses/UnexpectedError'
+  /products/paged:
+    get:
+      summary: Get a list of paged products
+      operationId: getPagedProductsFilter
+      parameters:
+        - $ref: '#/components/parameters/productNameQueryParam'
+        - $ref: '#/components/parameters/categoryNameQueryParam'
+        - $ref: '#/components/parameters/minPriceQueryParam'
+        - $ref: '#/components/parameters/maxPriceQueryParam'
+        - $ref: '#/components/parameters/pageNumberQueryParam'
+        - $ref: '#/components/parameters/pageSizeQueryParam'
+        - $ref: '#/components/parameters/sortByQueryParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/PagedResponseProductDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /products:
     post:
       summary: Create a Product
@@ -264,22 +263,22 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/UnexpectedError'
-#    delete:
-#      summary: Delete a product by id.
-#      operationId: deleteProductById
-#      responses:
-#        '204':
-#          description: Product deleted successfully, no content returned.
-#        '400':
-#          $ref: '#/components/responses/BadRequest'
-#        '401':
-#          $ref: '#/components/responses/Unauthorized'
-#        '403':
-#          $ref: '#/components/responses/Forbidden'
-#        '404':
-#          $ref: '#/components/responses/NotFound'
-#        '500':
-#          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      summary: Delete a product by id.
+      operationId: deleteProductById
+      responses:
+        '204':
+          description: Product deleted successfully, no content returned.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 #    put:
 #      summary: Update a product by id.
 #      operationId: updateProductById
