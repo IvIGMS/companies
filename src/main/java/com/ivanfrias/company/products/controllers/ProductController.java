@@ -65,7 +65,6 @@ public class ProductController extends ControllerUtils implements ProductsApi {
     public ResponseEntity<PagedResponseProductDTO> getPagedProductsFilter(
             String productName,
             String categoryName,
-            String companyName,
             Double minPrice,
             Double maxPrice,
             Integer pageNumberQueryParam,
@@ -73,7 +72,7 @@ public class ProductController extends ControllerUtils implements ProductsApi {
             String sortByQueryParam
     ) {
         Pageable pageable = PaginationUtils.createPageable(pageNumberQueryParam, pageSizeQueryParam, sortByQueryParam);
-        Page<ProductDTO> products = productService.getPagedProductsFilter(productName, categoryName, companyName, minPrice, maxPrice, pageable);
+        Page<ProductDTO> products = productService.getPagedProductsFilter(productName, categoryName, minPrice, maxPrice, pageable);
         return ResponseEntity.ok(PaginationUtils.fromPage(products));
     }
 }

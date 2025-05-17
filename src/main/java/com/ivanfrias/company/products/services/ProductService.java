@@ -73,8 +73,8 @@ public class ProductService {
         productRepository.deleteById(productId);
     }
 
-    public Page<ProductDTO> getPagedProductsFilter(String productName, String categoryName, String companyName, Double minPrice, Double maxPrice, Pageable pageable) {
-        Page<ProductEntity> productEntitiesPaged = (Page<ProductEntity>) productRepository.getPagedProductsFilter(productName, categoryName, companyName, minPrice, maxPrice, pageable);
+    public Page<ProductDTO> getPagedProductsFilter(String productName, String categoryName, Double minPrice, Double maxPrice, Pageable pageable) {
+        Page<ProductEntity> productEntitiesPaged = (Page<ProductEntity>) productRepository.getPagedProductsFilter(productName, categoryName, minPrice, maxPrice, pageable);
 
         if(CollectionUtils.isEmpty(productEntitiesPaged.getContent())){
             throw new NotFoundException("No hay ningun producto registrado en la aplicación");

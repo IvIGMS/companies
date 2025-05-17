@@ -22,19 +22,19 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
                                           @Param("categoryName") String categoryName,
                                           @Param("minPrice") Double minPrice,
                                           @Param("maxPrice") Double maxPrice,
-                                          @Param("companyId") Long companyId);
+                                          @Param("companyId") Long companyId
+    );
 
     @Query("SELECT p FROM ProductEntity p " +
             "WHERE (:productName IS NULL OR p.productName = :productName) " +
             "AND (:categoryName IS NULL OR p.category.categoryName = :categoryName) " +
-            "AND (:companyName IS NULL OR p.company.name = :companyName)" +
             "AND (:minPrice IS NULL OR p.price >= :minPrice) " +
             "AND (:maxPrice IS NULL OR p.price <= :maxPrice) "
     )
     Page<ProductEntity> getPagedProductsFilter(@Param("productName") String productName,
                                                @Param("categoryName") String categoryName,
-                                               @Param("companyName") String companyName,
                                                @Param("minPrice") Double minPrice,
                                                @Param("maxPrice") Double maxPrice,
-                                               Pageable pageable);
+                                               Pageable pageable
+    );
 }
