@@ -10,7 +10,10 @@ import com.ivanfrias.company.common.exceptions.NotFoundException;
 import com.ivanfrias.company.products.dao.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
+ import org.springframework.data.domain.Page;
+ import org.springframework.data.domain.Pageable;
+ import org.springframework.stereotype.Service;
+ import org.springframework.util.CollectionUtils;
 
  import java.util.List;
  import java.util.Objects;
@@ -68,5 +71,14 @@ public class ProductService {
             throw new NotFoundException("Este product id no pertence al usuario");
         }
         productRepository.deleteById(productId);
+    }
+
+    public Page<ProductDTO> getPagedProductsFilter(String productName, String categoryName, String companyName, Double minPrice, Double maxPrice, Pageable pageable) {
+        Page<ProductEntity> productEntitiesPaged = (Page<ProductEntity>) productRepository.getPagedProductsFilter(productName, categoryName, companyName, minPrice, maxPrice, pageable);
+
+        if(CollectionUtils.isEmpty(productEntitiesPaged.getContent())){
+            throw new NotFoundException("No hay ningun producto registrado en la aplicación");
+        }
+        return productEntitiesPaged.map(productEntity -> modelMapper.map(productEntity, ProductDTO.class));
     }
 }

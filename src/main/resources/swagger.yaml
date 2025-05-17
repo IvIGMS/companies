@@ -163,6 +163,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/productNameQueryParam'
         - $ref: '#/components/parameters/categoryNameQueryParam'
+        - $ref: '#/components/parameters/companyNameQueryParam'
         - $ref: '#/components/parameters/minPriceQueryParam'
         - $ref: '#/components/parameters/maxPriceQueryParam'
         - $ref: '#/components/parameters/pageNumberQueryParam'
@@ -488,12 +489,12 @@ components:
       required: false
       schema:
         $ref: '#/components/schemas/categoryName'
-    companyIdQueryParam:
-      name: categoryName
+    companyNameQueryParam:
+      name: companyName
       in: query
       required: false
       schema:
-        $ref: '#/components/schemas/categoryName'
+        $ref: '#/components/schemas/companyName'
     pageNumberQueryParam:
       name: pageNumberQueryParam
       in: query
@@ -911,6 +912,9 @@ components:
     categoryName:
       type: string
       example: "Drinks"
+    companyName:
+      type: string
+      example: "Microsoft"
     productName:
       type: string
       example: "Drinks"
