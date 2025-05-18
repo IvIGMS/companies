@@ -807,6 +807,9 @@ components:
           type: integer
           format: int64
           example: 12345
+        productName:
+          type: string
+          example: agua mineral
         createdAt:
           type: string
           format: date-time
