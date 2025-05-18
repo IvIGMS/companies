@@ -275,15 +275,16 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/UnexpectedError'
-  /orders/{orderId}/delivered:
+  /orders/{orderId}/change-status/{stateId}:
     parameters:
       - $ref: '#/components/parameters/orderId'
+      - $ref: '#/components/parameters/stateId'
     patch:
-      summary: Activate isDelivered field.
-      operationId: isDelivered
+      summary: change order status
+      operationId: changeOrderStatus
       responses:
         '204':
-          description: Pedido entregado correctamente, sin contenido.
+          description: OrderStatus cambiado correctamente, sin contenido.
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -402,6 +403,23 @@ paths:
 #          $ref: '#/components/responses/NotFound'
 #        '500':
 #          $ref: '#/components/responses/UnexpectedError'
+  /orderStates:
+    get:
+      summary: Get a list of orders states
+      operationId: getOrderStates
+      responses:
+        '200':
+          $ref: '#/components/responses/ListOrderStates'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   '/categories/{categoryId}':
     parameters:
       - $ref: '#/components/parameters/categoryId'
@@ -527,6 +545,12 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/orderId'
+    stateId:
+      name: stateId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/stateId'
     minPriceQueryParam:
       name: minPrice
       in: query
@@ -570,6 +594,14 @@ components:
       schema:
         $ref: '#/components/schemas/sortByQueryParam'
   responses:
+    ListOrderStates:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/StateDTO'
     ListOrders:
       description: OK.
       content:
@@ -736,6 +768,16 @@ components:
                   One or more fields are invalid. See details for more information.
                 instance: 'https://api.example.com/problems/validation-error/12345'
   schemas:
+    StateDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 12345
+        name:
+          type: string
+          example: Pendiente
     OrderDTO:
       type: object
       properties:
@@ -757,9 +799,10 @@ components:
           type: string
           format: number
           example: "1.32"
-        isDelivered:
-          type: boolean
-          example: false
+        stateId:
+          type: integer
+          format: int64
+          example: 12345
         productId:
           type: integer
           format: int64
@@ -1027,6 +1070,14 @@ components:
       maximum: 999999999999
       example: 1
     orderId:
+      title: example
+      description: example
+      type: integer
+      format: int64
+      minimum: 1
+      maximum: 999999999999
+      example: 1
+    stateId:
       title: example
       description: example
       type: integer

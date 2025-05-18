@@ -1,6 +1,7 @@
 package com.ivanfrias.company.orders.dao.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ivanfrias.company.products.dao.entities.ProductEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -35,13 +37,14 @@ public class OrderEntity {
     @Column(nullable = false)
     private BigDecimal priceUnit;
 
-    @Column(nullable = false)
-    private boolean isDelivered = false;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "product_id")
     private ProductEntity product;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
+    @JsonManagedReference
+    private List<OrderStateEntity> orderStates;
 
     @CreationTimestamp
     @Column(updatable = false)

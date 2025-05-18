@@ -42,12 +42,12 @@ public class OrderController extends ControllerUtils implements OrdersApi {
     }
 
     @Override
-    public ResponseEntity<Void> isDelivered(Long orderId) {
+    public ResponseEntity<Void> changeOrderStatus(Long orderId, Long stateId) {
         if(!checkIsUser()){
             throw new UnauthorizedException(STRING_NO_PREMISSIONS);
         }
         Long userId = getAllClaims().get("user_id", Long.class);
-        orderService.isDelivered(orderId, userId);
+        orderService.changeOrderStatus(orderId, userId, stateId);
         return ResponseEntity.noContent().build();
     }
 }

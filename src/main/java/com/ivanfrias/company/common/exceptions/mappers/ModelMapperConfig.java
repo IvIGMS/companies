@@ -4,8 +4,11 @@ import com.ivanfrias.companies.model.CategoryDTO;
 import com.ivanfrias.companies.model.CompanyDTO;
 import com.ivanfrias.companies.model.OrderDTO;
 import com.ivanfrias.company.company.dao.entities.CompanyEntity;
+import com.ivanfrias.company.orders.dao.dto.OrderStateDTO;
 import com.ivanfrias.company.orders.dao.entities.OrderEntity;
+import com.ivanfrias.company.orders.dao.entities.OrderStateEntity;
 import com.ivanfrias.company.products.dao.entities.CategoryEntity;
+import org.hibernate.service.spi.ServiceException;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Configuration
 public class ModelMapperConfig {
@@ -69,13 +73,24 @@ public class ModelMapperConfig {
         mapper.typeMap(OrderEntity.class, OrderDTO.class).addMappings(m -> {
             m.using(zonedToOffset).map(OrderEntity::getCreatedAt, OrderDTO::setCreatedAt);
             m.using(zonedToOffset).map(OrderEntity::getUpdatedAt, OrderDTO::setUpdatedAt);
-            m.map(OrderEntity::isDelivered, OrderDTO::setIsDelivered);
+            m.using(ctx -> {
+                OrderEntity source = (OrderEntity) ctx.getSource();
+
+                List<OrderStateEntity> orderStateEntityList = source.getOrderStates().stream()
+                        .filter(OrderStateEntity::isCurrent)
+                        .toList();
+
+                if (orderStateEntityList.size() != 1) {
+                    throw new IllegalStateException("Debe haber exactamente un estado actual por pedido");
+                }
+
+                return orderStateEntityList.get(0).getState().getId();
+            }).map(src -> src, OrderDTO::setStateId);
         });
 
         mapper.typeMap(OrderDTO.class, OrderEntity.class).addMappings(m -> {
             m.using(offsetToZoned).map(OrderDTO::getCreatedAt, OrderEntity::setCreatedAt);
             m.using(offsetToZoned).map(OrderDTO::getUpdatedAt, OrderEntity::setUpdatedAt);
-            m.map(OrderDTO::getIsDelivered, OrderEntity::setDelivered);
         });
     }
 }
