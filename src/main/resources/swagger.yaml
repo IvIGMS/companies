@@ -295,6 +295,31 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/UnexpectedError'
+  /orders/paged:
+    get:
+      summary: Get a list of paged orders
+      operationId: getPagedOrders
+      parameters:
+        - $ref: '#/components/parameters/productNameQueryParam'
+        - $ref: '#/components/parameters/providerNameQueryParam'
+        - $ref: '#/components/parameters/minPriceQueryParam'
+        - $ref: '#/components/parameters/maxPriceQueryParam'
+        - $ref: '#/components/parameters/pageNumberQueryParam'
+        - $ref: '#/components/parameters/pageSizeQueryParam'
+        - $ref: '#/components/parameters/sortByQueryParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/PagedResponseProductDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /orders:
     get:
       summary: Get a list of orders
@@ -569,6 +594,12 @@ components:
       required: false
       schema:
         $ref: '#/components/schemas/productName'
+    providerNameQueryParam:
+      name: providerName
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/providerName'
     categoryNameQueryParam:
       name: categoryName
       in: query
@@ -1113,6 +1144,9 @@ components:
     productName:
       type: string
       example: "Drinks"
+    providerName:
+      type: string
+      example: "Mercadona"
     sortByQueryParam:
       type: string
       example: "productName"

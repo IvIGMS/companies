@@ -2,14 +2,12 @@ package com.ivanfrias.company.orders.services;
 
 import com.ivanfrias.companies.model.OrderDTO;
 import com.ivanfrias.companies.model.OrderRequestDTO;
-import com.ivanfrias.companies.model.ProductDTO;
 import com.ivanfrias.company.common.exceptions.NotFoundException;
 import com.ivanfrias.company.company.dao.entities.CompanyEntity;
 import com.ivanfrias.company.company.services.CompanyService;
 import com.ivanfrias.company.orders.dao.dto.OrderStateDTO;
 import com.ivanfrias.company.orders.dao.entities.OrderEntity;
 import com.ivanfrias.company.orders.dao.entities.OrderStateEntity;
-import com.ivanfrias.company.orders.dao.entities.StateEntity;
 import com.ivanfrias.company.orders.dao.repositories.OrderRepository;
 import com.ivanfrias.company.products.dao.entities.ProductEntity;
 import com.ivanfrias.company.products.services.ProductService;
@@ -27,7 +25,6 @@ public class OrderService {
     private final CompanyService companyService;
     private final ProductService productService;
     private final OrderStateService orderStateService;
-    private final StateService stateService;
     private final ModelMapper modelMapper;
 
     public OrderDTO getOrderById(Long orderId) {
