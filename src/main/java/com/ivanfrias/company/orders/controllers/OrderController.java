@@ -1,13 +1,14 @@
 package com.ivanfrias.company.orders.controllers;
 
 import com.ivanfrias.companies.api.OrdersApi;
-import com.ivanfrias.companies.model.OrderDTO;
-import com.ivanfrias.companies.model.OrderRequestDTO;
-import com.ivanfrias.companies.model.UserDTO;
+import com.ivanfrias.companies.model.*;
 import com.ivanfrias.company.common.exceptions.utils.ControllerUtils;
+import com.ivanfrias.company.common.exceptions.utils.PaginationUtils;
 import com.ivanfrias.company.common.exceptions.utils.UnauthorizedException;
 import com.ivanfrias.company.orders.services.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,5 +50,28 @@ public class OrderController extends ControllerUtils implements OrdersApi {
         Long userId = getAllClaims().get("user_id", Long.class);
         orderService.changeOrderStatus(orderId, userId, stateId);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<PagedResponseOrderDTO> getPagedOrders(
+            String productName,
+            String providerName,
+            Double minPrice,
+            Double maxPrice,
+            Long idOrderState,
+            Integer pageNumberQueryParam,
+            Integer pageSizeQueryParam,
+            String sortByQueryParam
+    ) {
+        if(!checkIsUser()){
+            throw new UnauthorizedException(STRING_NO_PREMISSIONS);
+        }
+
+        Long userId = getAllClaims().get("user_id", Long.class);
+        Pageable pageable = PaginationUtils.createPageable(pageNumberQueryParam, pageSizeQueryParam, sortByQueryParam);
+
+        Page<OrderDTO> orders = orderService.getPagedOrders(productName, providerName, userId, minPrice, maxPrice, idOrderState, pageable);
+        return ResponseEntity.ok(PaginationUtils.fromPageOrder(orders));
+
     }
 }

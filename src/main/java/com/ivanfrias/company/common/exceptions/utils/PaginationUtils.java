@@ -1,6 +1,8 @@
 package com.ivanfrias.company.common.exceptions.utils;
 
 
+import com.ivanfrias.companies.model.OrderDTO;
+import com.ivanfrias.companies.model.PagedResponseOrderDTO;
 import com.ivanfrias.companies.model.PagedResponseProductDTO;
 import com.ivanfrias.companies.model.ProductDTO;
 import org.springframework.data.domain.Page;
@@ -27,8 +29,18 @@ public class PaginationUtils {
         return PageRequest.of(page, size, sort);
     }
 
-    public static PagedResponseProductDTO fromPage(Page<ProductDTO> page) {
+    public static PagedResponseProductDTO fromPageProduct(Page<ProductDTO> page) {
         PagedResponseProductDTO dto = new PagedResponseProductDTO();
+        dto.setContent(page.getContent());
+        dto.setNumber(page.getNumber() + 1); // El + 1 es para que empiece en 1, no en 0
+        dto.setSize(page.getSize());
+        dto.setTotalPages(page.getTotalPages());
+        dto.setTotalElements(page.getTotalElements());
+        return dto;
+    }
+
+    public static PagedResponseOrderDTO fromPageOrder(Page<OrderDTO> page) {
+        PagedResponseOrderDTO dto = new PagedResponseOrderDTO();
         dto.setContent(page.getContent());
         dto.setNumber(page.getNumber() + 1); // El + 1 es para que empiece en 1, no en 0
         dto.setSize(page.getSize());

@@ -2,6 +2,7 @@ package com.ivanfrias.company.orders.services;
 
 import com.ivanfrias.companies.model.OrderDTO;
 import com.ivanfrias.companies.model.OrderRequestDTO;
+import com.ivanfrias.companies.model.ProductDTO;
 import com.ivanfrias.company.common.exceptions.NotFoundException;
 import com.ivanfrias.company.company.dao.entities.CompanyEntity;
 import com.ivanfrias.company.company.services.CompanyService;
@@ -14,7 +15,10 @@ import com.ivanfrias.company.products.services.ProductService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -121,5 +125,23 @@ public class OrderService {
         }
 
         return orderStateEntityList.get(0);
+    }
+
+    public Page<OrderDTO> getPagedOrders(
+            String productName,
+            String providerName,
+            Long userId,
+            Double minTotalPrice,
+            Double maxTotalPrice,
+            Long idOrderState,
+            Pageable pageable
+    ) {
+        CompanyEntity company = companyService.getCompanyEntityByUserId(userId);
+        Page<OrderEntity> orderEntityPaged = orderRepository.getPagedOrders(productName, providerName, company.getId(), minTotalPrice, maxTotalPrice, idOrderState, pageable);
+
+        if(CollectionUtils.isEmpty(orderEntityPaged.getContent())){
+            throw new NotFoundException("No hay ningun pedido registrado en la aplicación");
+        }
+        return orderEntityPaged.map(orderEntity -> modelMapper.map(orderEntity, OrderDTO.class));
     }
 }

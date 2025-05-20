@@ -304,12 +304,13 @@ paths:
         - $ref: '#/components/parameters/providerNameQueryParam'
         - $ref: '#/components/parameters/minPriceQueryParam'
         - $ref: '#/components/parameters/maxPriceQueryParam'
+        - $ref: '#/components/parameters/idOrderStateQueryParam'
         - $ref: '#/components/parameters/pageNumberQueryParam'
         - $ref: '#/components/parameters/pageSizeQueryParam'
         - $ref: '#/components/parameters/sortByQueryParam'
       responses:
         '200':
-          $ref: '#/components/responses/PagedResponseProductDTO'
+          $ref: '#/components/responses/PagedResponseOrderDTO'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -588,6 +589,12 @@ components:
       required: false
       schema:
         $ref: '#/components/schemas/maxPrice'
+    idOrderStateQueryParam:
+      name: idOrderState
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/idOrderState'
     productNameQueryParam:
       name: productName
       in: query
@@ -679,6 +686,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/PagedResponseProductDTO'
+    PagedResponseOrderDTO:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PagedResponseOrderDTO'
     ResponseCompanyDTO:
       description: OK.
       content:
@@ -867,6 +880,26 @@ components:
           type: integer
           format: int64
           example: 12345
+    PagedResponseOrderDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderDTO'
+        number:
+          type: integer
+          example: 1
+        size:
+          type: integer
+          example: 25
+        totalElements:
+          type: integer
+          format: int64
+          example: 232
+        totalPages:
+          type: integer
+          example: 23
     PagedResponseProductDTO:
       type: object
       properties:
@@ -1127,6 +1160,14 @@ components:
       minimum: 0.01
       maximum: 999.99
       example: 5.99
+    idOrderState:
+      title: example
+      description: example
+      type: integer
+      format: int64
+      minimum: 1
+      maximum: 999999999999
+      example: 1
     minPrice:
       title: example
       description: example

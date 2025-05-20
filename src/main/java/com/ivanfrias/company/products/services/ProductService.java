@@ -8,7 +8,6 @@ import com.ivanfrias.company.common.exceptions.NotFoundException;
  import com.ivanfrias.company.company.services.CompanyService;
  import com.ivanfrias.company.products.dao.entities.ProductEntity;
 import com.ivanfrias.company.products.dao.repositories.ProductRepository;
- import com.ivanfrias.company.security.dao.models.entities.UserEntity;
  import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
  import org.springframework.data.domain.Page;
@@ -75,7 +74,14 @@ public class ProductService {
         productRepository.deleteById(productId);
     }
 
-    public Page<ProductDTO> getPagedProductsFilter(String productName, String categoryName, Long userId, Double minPrice, Double maxPrice, Pageable pageable) {
+    public Page<ProductDTO> getPagedProductsFilter(
+            String productName,
+            String categoryName,
+            Long userId,
+            Double minPrice,
+            Double maxPrice,
+            Pageable pageable
+    ) {
         CompanyEntity company = companyService.getCompanyEntityByUserId(userId);
         Page<ProductEntity> productEntitiesPaged = (Page<ProductEntity>) productRepository.getPagedProductsFilter(productName, categoryName, company.getId(), minPrice, maxPrice, pageable);
 
